@@ -1,0 +1,54 @@
+{
+  "id": 2,
+  "uid": "node-load-1m",
+  "title": "Load (1m)",
+  "type": "timeseries",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "node_load1",
+      "legendFormat": "{{instance}}",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "short",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "yellow",
+            "value": 4
+          },
+          {
+            "color": "red",
+            "value": 8
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi"
+    },
+    "legend": {
+      "calcs": [
+        "mean",
+        "max"
+      ],
+      "displayMode": "list"
+    }
+  }
+}

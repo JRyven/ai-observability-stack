@@ -1,0 +1,76 @@
+{
+  "id": 12,
+  "uid": "minio-audit-messages",
+  "title": "MinIO Audit Messages",
+  "type": "timeseries",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "rate(minio_audit_total_messages[5m])",
+      "legendFormat": "Total messages/sec",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "expr": "rate(minio_audit_failed_messages[5m])",
+      "legendFormat": "Failed messages/sec",
+      "refId": "B",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "short",
+      "custom": {
+        "lineWidth": 2,
+        "fillOpacity": 10
+      },
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          }
+        ]
+      }
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Failed messages/sec"
+        },
+        "properties": [
+          {
+            "id": "color",
+            "value": {
+              "mode": "fixed",
+              "fixedColor": "red"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi"
+    },
+    "legend": {
+      "calcs": [
+        "mean",
+        "max"
+      ],
+      "displayMode": "list",
+      "placement": "bottom"
+    }
+  }
+}

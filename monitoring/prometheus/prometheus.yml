@@ -1,0 +1,76 @@
+global:
+  scrape_interval: 15s
+
+rule_files:
+  - rules/backup.rules.yml
+  - rules/alerts.yml
+  - rules/prometheus-self.rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - 127.0.0.1:9093
+
+scrape_configs:
+  - job_name: 'prometheus'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['127.0.0.1:9090']
+        labels:
+          instance: 'prometheus'
+    scrape_interval: 30s
+
+  - job_name: 'grafana'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['127.0.0.1:3000']
+        labels:
+          instance: 'grafana'
+    scrape_interval: 30s
+
+  - job_name: 'alertmanager'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['127.0.0.1:9093']
+        labels:
+          instance: 'alertmanager'
+    scrape_interval: 30s
+
+  - job_name: 'node_exporter_primary'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['127.0.0.1:9100']
+        labels:
+          instance: 'primary-node'
+    scrape_interval: 30s
+
+  - job_name: 'gpu_exporter'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['127.0.0.1:9101']
+        labels:
+          instance: 'gpu-runtime'
+    scrape_interval: 30s
+
+  - job_name: 'llm_runtime_exporter'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['127.0.0.1:9102']
+        labels:
+          instance: 'llm-runtime'
+    scrape_interval: 30s
+
+  - job_name: 'object_storage_exporter'
+    metrics_path: '/minio/v2/metrics/cluster'
+    scheme: http
+    static_configs:
+      - targets: ['127.0.0.1:9000']
+        labels:
+          instance: 'object-storage'
+    scrape_interval: 30s
+
+  # Optional examples:
+  # - Add additional node_exporter jobs for more hosts.
+  # - Add blackbox exporter jobs for public HTTP checks.
+  # - Disable any scrape job whose exporter is not running in your environment.

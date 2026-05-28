@@ -1,0 +1,29 @@
+groups:
+  - name: generic_backup_rules
+    rules:
+      - alert: BackupJobFailure
+        expr: backup_last_success{target=~".+"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backup failure detected for {{ $labels.target }}"
+          description: "The backup exporter reports that the latest backup did not complete successfully."
+
+      - alert: BackupJobStale
+        expr: (time() - backup_last_timestamp{target=~".+"}) > 86400
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Backup has not run in 24+ hours for {{ $labels.target }}"
+          description: "The backup exporter has not reported a recent successful backup for this target."
+
+      - alert: BackupJobDurationHigh
+        expr: backup_duration_seconds{target=~".+"} > 3600
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Backup duration high for {{ $labels.target }}"
+          description: "The latest backup duration exceeded the expected threshold. Adjust the threshold for your environment."

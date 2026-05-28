@@ -1,0 +1,63 @@
+{
+  "id": 7,
+  "uid": "rocm-gpu-temp",
+  "title": "ROCm GPU Temperature",
+  "type": "timeseries",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "rocm_gpu_temperature_celsius",
+      "legendFormat": "{{instance}}",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "celsius",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "blue",
+            "value": null
+          },
+          {
+            "color": "green",
+            "value": 40
+          },
+          {
+            "color": "yellow",
+            "value": 60
+          },
+          {
+            "color": "orange",
+            "value": 75
+          },
+          {
+            "color": "red",
+            "value": 85
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi"
+    },
+    "legend": {
+      "calcs": [
+        "mean",
+        "max",
+        "last"
+      ],
+      "displayMode": "list"
+    }
+  }
+}

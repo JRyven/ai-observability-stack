@@ -1,0 +1,61 @@
+{
+  "id": 14,
+  "uid": "minio-capacity-raw",
+  "title": "MinIO Raw Capacity",
+  "type": "timeseries",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "minio_cluster_capacity_raw_total_bytes / 1099511627776",
+      "legendFormat": "Total",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "expr": "minio_cluster_capacity_raw_free_bytes / 1099511627776",
+      "legendFormat": "Free",
+      "refId": "B",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "deckbytes",
+      "custom": {
+        "lineWidth": 2,
+        "fillOpacity": 10
+      },
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi"
+    },
+    "legend": {
+      "calcs": [
+        "mean",
+        "max",
+        "last"
+      ],
+      "displayMode": "list",
+      "placement": "bottom"
+    }
+  }
+}

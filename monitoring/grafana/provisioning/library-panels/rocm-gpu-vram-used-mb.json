@@ -1,0 +1,55 @@
+{
+  "id": 8,
+  "uid": "rocm-gpu-vram",
+  "title": "ROCm GPU VRAM Used",
+  "type": "timeseries",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "rocm_gpu_vram_used_mb * 1024 * 1024",
+      "legendFormat": "{{instance}}",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+          "unit": "bytes",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "yellow",
+            "value": 17179869184
+          },
+          {
+            "color": "red",
+            "value": 30923554816
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi"
+    },
+    "legend": {
+      "calcs": [
+        "mean",
+        "max",
+        "last"
+      ],
+      "displayMode": "list"
+    }
+  }
+}

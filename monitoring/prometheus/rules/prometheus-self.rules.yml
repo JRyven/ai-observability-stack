@@ -1,0 +1,79 @@
+groups:
+  - name: prometheus_self_monitoring
+    interval: 30s
+    rules:
+      # Alert if Prometheus is down
+      - alert: PrometheusDown
+        expr: up{job="prometheus"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus is down (instance {{ $labels.instance }})"
+          description: "Prometheus has been unavailable for more than 2 minutes."
+
+      # Alert if Prometheus scrape is failing
+      - alert: PrometheusHighScrapeFailureRate
+        expr: rate(prometheus_tsdb_symbol_table_size_bytes[5m]) == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Prometheus scrape failure (instance {{ $labels.instance }})"
+          description: "Prometheus has not successfully scraped targets for 5 minutes."
+
+      # Alert if Prometheus TSDB is running out of disk space
+      - alert: PrometheusLowDiskSpace
+        expr: |
+          (
+            prometheus_tsdb_data_blocks_bytes + 
+            prometheus_tsdb_wal_fsync_duration_seconds
+          ) / 1024 / 1024 / 1024 > 50
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Prometheus low disk space (instance {{ $labels.instance }})"
+          description: "Prometheus TSDB directory is using significant disk space (>50GB)."
+
+      # Alert if too many dropped targets
+      - alert: PrometheusHighDroppedTargets
+        expr: rate(prometheus_sd_discovered_targets[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Prometheus has dropped targets (instance {{ $labels.instance }})"
+          description: "Prometheus has dropped targets. Some services may be unreachable."
+
+      # Alert if rule evaluation is slow
+      - alert: PrometheusSlowRuleEvaluation
+        expr: histogram_quantile(0.99, prometheus_rule_evaluation_duration_seconds) > 5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Prometheus slow rule evaluation (instance {{ $labels.instance }})"
+          description: "Prometheus rule evaluation is taking >5 seconds on p99. Rules may not fire as expected."
+
+      # Alert if Prometheus ingestion is failing
+      - alert: PrometheusHighIngestErrorRate
+        expr: |
+          rate(prometheus_tsdb_symbol_table_size_bytes[5m]) == 0
+          and on(job) rate(prometheus_tsdb_compactions_triggered[5m]) == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Prometheus ingest error (instance {{ $labels.instance }})"
+          description: "Prometheus is failing to ingest samples. Check logs for details."
+
+      # Alert if alertmanager is unreachable
+      - alert: PrometheusAlertmanagerDown
+        expr: up{job="alertmanager"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alertmanager is down (instance {{ $labels.instance }})"
+          description: "Prometheus cannot reach Alertmanager. Alerts will not be sent."

@@ -1,0 +1,49 @@
+{
+  "id": 9,
+  "uid": "ollama-token-counts-total",
+  "title": "Ollama Token Counts",
+  "type": "stat",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "sum by (direction) (llm_ollama_tokens_total)",
+      "legendFormat": "{{direction}}",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "none",
+      "decimals": 0,
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "colorMode": "value",
+    "graphMode": "area",
+    "justifyMode": "auto",
+    "orientation": "horizontal",
+    "reduceOptions": {
+      "calcs": [
+        "lastNotNull"
+      ],
+      "fields": "",
+      "values": false
+    },
+    "textMode": "auto"
+  }
+}

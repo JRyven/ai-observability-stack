@@ -1,0 +1,59 @@
+{
+  "id": 9,
+  "uid": "minio-cluster-health",
+  "title": "MinIO Cluster Health Status",
+  "type": "stat",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "minio_cluster_health_status",
+      "legendFormat": "Status",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [
+        {
+          "type": "value",
+          "options": {
+            "1": {
+              "text": "HEALTHY",
+              "color": "green"
+            },
+            "0": {
+              "text": "UNHEALTHY",
+              "color": "red"
+            }
+          }
+        }
+      ],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "red",
+            "value": null
+          },
+          {
+            "color": "green",
+            "value": 1
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "orientation": "auto",
+    "textMode": "auto",
+    "colorMode": "background",
+    "graphMode": "none",
+    "justifyMode": "auto"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": 11,
+  "uid": "minio-buckets-total",
+  "title": "MinIO Total Buckets",
+  "type": "stat",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "minio_cluster_bucket_total",
+      "legendFormat": "Buckets",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "short",
+      "color": {
+        "mode": "thresholds"
+      },
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "blue",
+            "value": null
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "orientation": "auto",
+    "textMode": "auto",
+    "colorMode": "background",
+    "graphMode": "none",
+    "justifyMode": "auto",
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "lastNotNull"
+      ]
+    }
+  }
+}

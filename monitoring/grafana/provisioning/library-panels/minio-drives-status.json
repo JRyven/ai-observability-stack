@@ -1,0 +1,81 @@
+{
+  "id": 13,
+  "uid": "minio-drives-status",
+  "title": "MinIO Drive Status",
+  "type": "timeseries",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "minio_cluster_drive_online_total",
+      "legendFormat": "Online drives",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "expr": "minio_cluster_drive_offline_total",
+      "legendFormat": "Offline drives",
+      "refId": "B",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "short",
+      "custom": {
+        "lineWidth": 2,
+        "fillOpacity": 10
+      },
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 1
+          }
+        ]
+      }
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Offline drives"
+        },
+        "properties": [
+          {
+            "id": "color",
+            "value": {
+              "mode": "fixed",
+              "fixedColor": "red"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi"
+    },
+    "legend": {
+      "calcs": [
+        "mean",
+        "max",
+        "last"
+      ],
+      "displayMode": "list",
+      "placement": "bottom"
+    }
+  }
+}

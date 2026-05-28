@@ -1,0 +1,60 @@
+{
+  "id": 10,
+  "uid": "minio-nodes-online",
+  "title": "MinIO Online Nodes",
+  "type": "stat",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "minio_cluster_nodes_online_total",
+      "legendFormat": "Online",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "expr": "minio_cluster_nodes_offline_total",
+      "legendFormat": "Offline",
+      "refId": "B",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "short",
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "red",
+            "value": null
+          },
+          {
+            "color": "green",
+            "value": 1
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "orientation": "auto",
+    "textMode": "auto",
+    "colorMode": "background",
+    "graphMode": "none",
+    "justifyMode": "auto",
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "lastNotNull"
+      ]
+    }
+  }
+}

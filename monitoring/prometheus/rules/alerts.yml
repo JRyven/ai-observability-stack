@@ -1,0 +1,21 @@
+groups:
+  - name: generic_service_alerts
+    interval: 30s
+    rules:
+      - alert: ScrapeTargetDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Scrape target is down ({{ $labels.job }} / {{ $labels.instance }})"
+          description: "Prometheus has not been able to scrape this target for more than 2 minutes."
+
+      - alert: HighScrapeFailureRate
+        expr: scrape_samples_scraped == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "No samples scraped for {{ $labels.job }}"
+          description: "The target is reachable but Prometheus is not collecting samples. Check exporter logs and metric endpoint configuration."

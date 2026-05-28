@@ -1,0 +1,61 @@
+{
+  "id": 6,
+  "uid": "rocm-gpu-util",
+  "title": "ROCm GPU Utilization",
+  "type": "timeseries",
+  "version": 1,
+  "schemaVersion": 38,
+  "targets": [
+    {
+      "expr": "rocm_gpu_utilization_percent",
+      "legendFormat": "{{instance}}",
+      "refId": "A",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "fieldConfig": {
+    "defaults": {
+      "unit": "percent",
+      "min": 0,
+      "max": 100,
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "blue",
+            "value": null
+          },
+          {
+            "color": "green",
+            "value": 20
+          },
+          {
+            "color": "yellow",
+            "value": 60
+          },
+          {
+            "color": "red",
+            "value": 90
+          }
+        ]
+      }
+    },
+    "overrides": []
+  },
+  "options": {
+    "tooltip": {
+      "mode": "multi"
+    },
+    "legend": {
+      "calcs": [
+        "mean",
+        "max",
+        "last"
+      ],
+      "displayMode": "list"
+    }
+  }
+}
